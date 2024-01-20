@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+  web:
+    build: ./solicitud
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  nginx:
+    build: ./serversettings
+    ports:
+      - "80:80"
+    links:
+      - web
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.29-debian
+    environment:
+      MYSQL_ROOT_PASSWORD: NUNC4m13nt!
+      MYSQL_DATABASE: test
+      MYSQL_USER: gabo
+      MYSQL_PASSWORD: gabo
+    ports:
+      - "3306:3306"
+

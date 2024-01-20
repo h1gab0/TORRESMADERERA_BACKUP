@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web:
+    build: ./portforever
+    ports:
+      - "5001:5000"
+  nginx:
+    build: ./serversettings
+    ports:
+      - "81:80"
+    links:
+      - web
+  db:
+    build: ./database
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
