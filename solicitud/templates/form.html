@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('notPrinting', 'false');
             for (var i = 0; i < plist.length; i++) {
                 var pElement = document.getElementById(plist[i]);
-                if (pElement.value == 'Triplay Cim.'|| pElement.value == 'Triplay Cim. cd' || pElement.value == 'Triplay Cim. cdx') {
+                if (pElement.value == 'Triplay Cim.'|| pElement.value == 'Triplay Cim. cd' || pElement.value == 'Triplay Cim. cdx' || pElement.value == 'MDF') {
                     var tcepresent = document.querySelector(".espesor-3");
                     var tcapresent = document.querySelector(".ancho-2");	
                     var tccpresent = document.querySelector(".cantidad-2");
@@ -157,6 +157,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 var ftwoeighty = document.querySelector(".flete");
                 ftwoeighty.style.width = "155%";
                 }
+            // Get the textarea
+            var textarea = document.getElementById('unotas');
+
+            // Create a new div and set its content to the textarea's value
+            var div = document.createElement('div');
+            div.innerText = textarea.value; // Use innerText instead of textContent
+
+            // Apply the CSS style
+            div.style.whiteSpace = 'pre-wrap';
+
+            // Replace the textarea with the div
+            textarea.parentNode.replaceChild(div, textarea);
             html2canvas(element).then(function(canvas) {
                 var imgData = canvas.toDataURL('image/png');
                 var pdf = new jsPDF('p', 'mm', 'a4');
@@ -189,11 +201,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 imgHeight *= scale;
                 var x = (width - imgWidth) / 2;
                 var y = (height - imgHeight) / 2;
+		var folio = document.querySelector(".instancenum").textContent;
                 pdf.addImage(imgData, 'PNG', x, 0, imgWidth, imgHeight);
                 pdf.save('COTIZACION_MADERA_LAS_TORRES_'+folio+'.pdf');
                 restoreElements(originalState);
                 medidasCol.style.marginLeft = "0px";
             });
+            div.parentNode.replaceChild(textarea, div);
                 if (windowWidth <= 280) {
                     twoeighty.style.marginRight = "0%";
                     ftwoeighty.style.width = "100%";
